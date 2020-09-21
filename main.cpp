@@ -85,8 +85,8 @@ int main() {
     // filling the stack half way with random numbers to begin random tests
     int testint;
     for (int i = 0; i<int(STACKSIZE / 2); i++) {
-        if (stack.push(i + 1)) {
-            testint = rand() % MAX_INT + 1;
+        testint = rand() % MAX_INT + 1;
+        if (stack.push(testint)) {
             cout << "pushed: " << testint << endl;
         } else {
             cout << "failed: " << testint << endl;
