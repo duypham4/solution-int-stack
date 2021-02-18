@@ -1,6 +1,5 @@
-/* 
+/*
  * File: main.cpp
- * Author: alex
  *
  * This is the main() to test and demonstrate
  * a simple integer Stack
@@ -13,7 +12,16 @@ int main() {
     // call only ONCE per application!
     srand(time(NULL));
 
+    // create stack
     Stack stack;
+
+    /************************************************
+    ******* EMPTY TESTS *****************************
+    ************************************************/
+
+    cout << "Beginning tests..." << endl << endl << "Testing empty operations." << endl;
+    cout << "=====================================================" << endl;
+
     // testing isEmpty() on empty stack
     if (stack.isEmpty()) {
         cout << "stack is empty" << endl;
@@ -22,12 +30,42 @@ int main() {
     }
     cout << endl;
 
+    /* NOTE: peek() and pop() use different techniques in this example ONLY
+     * for demonstration purposes. normally peek() and pop() should have
+     * identical interfaces and calls.
+     */
+
+    // testing peek() and pop() on empty stack
+    int value;
+    
+    if(stack.peek(&value)){
+        cout << "peeked: " << value << endl;
+    } else {
+        cout << "peek underflow error: stack is empty" << endl;
+    }
+    
+    try{
+        value = stack.pop();
+        cout << "popped: " << value << endl;
+    } catch(...){
+        cout << "pop underflow error: stack is empty" << endl;
+    }
+    cout << endl;
+    
+    /************************************************
+    ******** FILLING AND FULL TESTS *****************
+    ************************************************/
+    
+    cout << "Testing full operations." << endl;
+    cout << "=====================================================" << endl;
+
     // testing filling the stack and overflow
-    for (int i = 0; i < STACKSIZE + 5; i++) {
+    cout << "Filling stack..." << endl;
+    for (int i = 0; i < MULTIPLIER*STACKSIZE; i++) {
         if (stack.push(i + 1)) {
             cout << "pushed: " << i + 1 << endl;
         } else {
-            cout << "failed: " << i + 1 << endl;
+            cout << "overflow error: " << i + 1 << " not pushed" << endl;
         }
     }
     cout << endl;
@@ -40,41 +78,54 @@ int main() {
     }
     cout << endl;
 
-    // testing peeking on full stack
-    try {
-        cout << "peeked: " << stack.peek() << endl;
-    } catch (...) {
-        cout << "failed. stack must be empty." << endl;
+    // testing peek() and pop() on full stack
+    if(stack.peek(&value)){
+        cout << "peeked: " << value << endl;
+    } else {
+        cout << "peek underflow error: stack is empty" << endl;
+    }
+    
+    try{
+        value = stack.pop();
+        cout << "popped: " << value << endl;
+    } catch(...){
+        cout << "pop underflow error: stack is empty" << value << endl;
     }
     cout << endl;
 
-    // this is a programmer debug routine
-    // DO NOT LEAVE THIS IN PRODUCTION CODE
+    cout << "Dumping stack..." << endl;
+    cout << "=====================================================" << endl;
+    
+    // this is a programmer debug routine used for
+    // testing and is not part of normal stack methods
     stack.dumpStack();
 
-    // testing popping whole stack
-    for (int i = 0; i < STACKSIZE + 5; i++) {
+    /************************************************
+    ******** EMPTYING AND EMPTY TESTS ***************
+    ************************************************/
+
+    cout << "Testing peek and pop, and emptying stack..." << endl;
+    cout << "=====================================================" << endl;
+
+    // testing popping and peeking whole stack
+    for (int i = 0; i < MULTIPLIER*STACKSIZE; i++) {
+        if(stack.peek(&value)){
+            cout << "peeked: " << value  << endl;
+        } else {
+            cout << "peek underflow error: stack is empty" << endl;
+        }
         try {
             cout << "popped: " << stack.pop() << endl;
         } catch (...) {
-            cout << "failed. stack must be empty." << endl;
+            cout << "pop underflow error: stack is empty" << endl;
         }
     }
     cout << endl;
-
-    // this is a programmer debug routine
-    // DO NOT LEAVE THIS IN PRODUCTION CODE
+    cout << "Dumping stack..." << endl;
+    cout << "=====================================================" << endl;
     stack.dumpStack();
 
-    //testing peeking at empty
-    try {
-        cout << "peeked: " << stack.peek() << endl;
-    } catch (...) {
-        cout << "failed. stack must be empty." << endl;
-    }
-    cout << endl;
-
-    //testing isEmpty() at empty
+    // testing isEmpty() on empty stack
     if (stack.isEmpty()) {
         cout << "stack is empty" << endl;
     } else {
@@ -82,21 +133,41 @@ int main() {
     }
     cout << endl;
 
+    // testing peek() and pop() on empty stack
+    if(stack.peek(&value)){
+        cout << "peeked: " << value << endl;
+    } else {
+        cout << "peek underflow error: stack is empty" << endl;
+    }
+    
+    try{
+        value = stack.pop();
+        cout << "popped: " << value << endl;
+    } catch(...){
+        cout << "pop underflow error: stack is empty" << endl;
+    }
+    cout << endl;
+
+    /************************************************
+    ******** RANDOM TESTS ***************************
+    ************************************************/
+    
+    cout << "Random testing..." << endl;
     // filling the stack half way with random numbers to begin random tests
-    int testint;
-    for (int i = 0; i<int(STACKSIZE / 2); i++) {
-        testint = rand() % MAX_INT + 1;
-        if (stack.push(testint)) {
-            cout << "pushed: " << testint << endl;
+    for (int i = 0; i< int(STACKSIZE / 2); i++) {
+        value = rand() % MAX_INT + 1;
+        if (stack.push(value)) {
+            cout << "pushed: " << value << endl;
         } else {
-            cout << "failed: " << testint << endl;
+            cout << "overflow error: " << i + 1 << " not pushed" << endl;
         }
     }
     cout << endl;
 
     /*
-     * The following will test random operations with push and pop
-     * happening twice as often as peek and isempty
+     * the following will test random operations. push() and pop()
+     * are called twice as often as peek and isempty because they
+     * change the stack and should be tested more rigorously.
      */
     int choice = rand() % CHOICES + 1;
     for (int i = 0; i < RANDOM_TRIES; i++) {
@@ -104,27 +175,29 @@ int main() {
             case 1:
             case 2:
                 // push
-                if (stack.push(rand() % MAX_INT + 1)) {
-                    cout << "pushed: " << i + 1 << endl;
+                value = (rand() % MAX_INT) + 1;
+                if (stack.push(value)) {
+                    cout << "pushed: " << value << endl;
                 } else {
-                    cout << "failed: " << i + 1 << endl;
+                    cout << "overflow error: " << value << " not pushed" << endl;
                 }
                 break;
             case 3:
             case 4:
                 // pop
-                try {
-                    cout << "popped: " << stack.pop() << endl;
-                } catch (...) {
-                    cout << "failed. stack must be empty." << endl;
+                try{
+                    value = stack.pop();
+                    cout << "popped: " << value << endl;
+                } catch(...){
+                    cout << "pop underflow error: stack is empty" << endl;
                 }
                 break;
             case 5:
                 // peek
-                try {
-                    cout << "peeked: " << stack.peek() << endl;
-                } catch (...) {
-                    cout << "failed. stack must be empty." << endl;
+                if(stack.peek(&value)){
+                    cout << "peeked: " << value << endl;
+                } else {
+                    cout << "peek underflow error: stack is empty" << endl;
                 }
                 break;
             case 6:
@@ -139,12 +212,10 @@ int main() {
         choice = rand() % CHOICES + 1;
 
     }
-    
-    // this is a programmer debug routine
-    // DO NOT LEAVE THIS IN PRODUCTION CODE
     cout << endl;
+
     stack.dumpStack();
-    cout << endl;
     
-    return 0;
+   cout << "Testing complete." << endl;
+   return 0;
 }
