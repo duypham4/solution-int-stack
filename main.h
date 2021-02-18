@@ -1,12 +1,12 @@
 /* 
  * File:   main.h
- * Author: Alex Katrompas
  *
  */
 
 #ifndef STACK_MAIN_H
 #define STACK_MAIN_H
 
+#define MULTIPLIER 1.5 // used to control overflow and underflow
 #define RANDOM_TRIES 50 // number of times to try random operations
 #define MAX_INT 1000 // random ints to push, 1 - 1000
 #define CHOICES 6 // used to pick random operations
