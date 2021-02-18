@@ -1,6 +1,5 @@
 /* 
  * File:   stack.h
- * Author: alex
  *
  * A simple Integer Stack. It is the corrected version
  * of https://www.studytonight.com/data-structures/stack-data-structure
@@ -11,9 +10,10 @@
 
 #define STACKSIZE 10
 
-/* included only for programmer debugging
-   should not be part of the completed version
-   DO NOT LEAVE THIS IN PRODUCTION CODE */
+/* <iostream> is included only for programmer debugging
+ * should not be part of the completed version
+ * *** DO NOT LEAVE THIS IN PRODUCTION CODE ***
+ */
 #include <iostream>
 
 class Stack {
@@ -24,7 +24,7 @@ public:
     ~Stack();  // destructor
 
     int pop();
-    int peek();
+    bool peek(int*);
     bool push(int);
     bool isEmpty();
 
