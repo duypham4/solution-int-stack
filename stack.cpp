@@ -1,6 +1,5 @@
 /* 
  * File:   stack.cpp
- * Author: alex
  * 
  * A simple Integer Stack. It is the corrected version
  * of https://www.studytonight.com/data-structures/stack-data-structure
@@ -11,7 +10,7 @@
 Stack::Stack() {
     /* the 'this' designation is optional. use it where there
      * is ambiguity or just to be complete and precise. here it
-     * is used just to show it's usage.
+     * is used just to show it's usage for demonstration purposes.
      */
     this->top = -1;
 }
@@ -34,19 +33,25 @@ bool Stack::push(int i) {
 int Stack::pop() {
 
     if (top < 0) {
-        //throw an int because we cannot return one
+        // throw an int because we cannot return one
         throw -1;
-    }
+    } // there is no 'else' because throw causes an immediate halt to execution
+
     return stack[top--];
 }
 
-int Stack::peek() {
-
-    if (top < 0) {
-        //throw an int because we cannot return one
-        throw -1;
+bool Stack::peek(int *ret) {
+    /* normally peek and pop should have identical in interfaces.
+     * this is only different to demonstrate an alternate solution.
+     * In a real solution, this technique would be the more
+     * appropriate method for both pop() and peek().
+     */
+    bool popped = false;
+    if (top > -1) {
+        *ret = stack[top];
+        popped = true;
     }
-    return stack[top];
+    return popped;
 }
 
 bool Stack::isEmpty() {
