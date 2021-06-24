@@ -23,6 +23,10 @@ public:
     Stack();  // constructor
     ~Stack();  // destructor
 
+    /* Note: normally peek and pop should have identical in interfaces. They are only
+     * different here to demonstrate alternate solutions. In a real solution, pop()
+     * and peek() should have identical interfaces.
+     */
     int pop();
     bool peek(int*);
     bool push(int);
